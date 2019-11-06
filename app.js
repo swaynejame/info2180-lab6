@@ -1,12 +1,6 @@
 function avengerSearch(){
   
   function clickButton() {
-   /* //Create button
-    var button = document.createElement("BUTTON");
-    //Set button text to search
-    button.innerHTML = "Search";
-    //Append to body
-    document.body.appendChild(button);*/
     //Add event listener
     var button = document.querySelector("button");
     button.addEventListener("click", function() {
