@@ -1,19 +1,23 @@
 function avengerSearch(){
   
   function clickButton() {
+    var button = document.getElementById("searchButton");
+    var show = document.getElementById("result");
     //Add event listener
-    var button = document.querySelector("button");
     button.addEventListener("click", function() {
       var xmlhttp = new XMLHttpRequest();
-      xmlhttp.open("GET", "superheroes.php");
+      var sBar = document.getElementById("searchBar");
+      var input  = sBar.value;
+      sBar.value="";
+  
+      xmlhttp.open("GET", "superheroes.php?query="+input);
       xmlhttp.send();
       
       xmlhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
-          alert(xmlhttp.responseText);
+          show.innerHTML=this.responseText;
         }
       }
-      
     });//End of create button
   }//End of avenger search
   clickButton();
