@@ -65,26 +65,32 @@ $superheroes = [
 
 ?>
 
-<?php if ($_GET['query'] == ""): ?>
+<?php $sanitize =filter_var($_GET['query'], FILTER_SANITIZE_STRING, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+echo $sanitize;
+?>
 
-<ul>
-<?php foreach ($superheroes as $superhero):?>
-  <li><?= $superhero['alias']; ?></li>
-<?php endforeach; ?>
-</ul>
-
-<?php else: ?>
-
+<?php
+    $foundSuperheros = array_filter($superheroes, function ($superhero) {
+      return (array_search($_GET['query'], $superhero));
+    });
+  ?>
+  
+  <?php if ($sanitize === ""):?>
+  <ul>
   <?php foreach ($superheroes as $superhero):?>
+    <li><?= $superhero['alias']; ?></li>
+  <?php endforeach; ?>
+  </ul>
   
-    <?php if(array_search($_GET['query'],$superhero)):?>
-      <h3><?= $superhero['alias']; ?></h3>
-      <h4>A.K.A <?= $superhero['name']; ?></h4>
-      <p><?= $superhero['biography']; ?></p>
-    <?php else:?>
-      <p>"Superhero not found"</p>
-    <?php endif;?>
+  <?php elseif (count($foundSuperheros) === 0) : ?>
+    <p>Superhero not found</p>
     
-  <?php endforeach;?>
-  
-<?php endif;?>
+  <?php else : ?>
+    <?php foreach($foundSuperheros as $superhero): ?>
+      <?php if(($superhero['name'] === $sanitize)||($superhero['alias'] === $sanitize)):?>
+        <h3><?= $superhero['alias']; ?></h3>
+        <h4>A.K.A <?= $superhero['name']; ?></h4>
+        <p><?= $superhero['biography']; ?></p>
+      <?php endif;?>
+    <?php endforeach; ?>
+  <?php endif; ?>
