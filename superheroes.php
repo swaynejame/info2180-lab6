@@ -66,7 +66,7 @@ $superheroes = [
 ?>
 
 <?php $sanitize =filter_var($_GET['query'], FILTER_SANITIZE_STRING, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-echo $sanitize;
+echo "Sanitized INPUT is: $sanitize";
 ?>
 
 <?php
@@ -76,6 +76,8 @@ echo $sanitize;
   ?>
   
   <?php if ($sanitize === ""):?>
+  <h2>RESULT</h2>
+  <hr>
   <ul>
   <?php foreach ($superheroes as $superhero):?>
     <li><?= $superhero['alias']; ?></li>
@@ -83,11 +85,15 @@ echo $sanitize;
   </ul>
   
   <?php elseif (count($foundSuperheros) === 0) : ?>
+    <h2>RESULT</h2>
+    <hr>
     <p>Superhero not found</p>
     
   <?php else : ?>
     <?php foreach($foundSuperheros as $superhero): ?>
       <?php if(($superhero['name'] === $sanitize)||($superhero['alias'] === $sanitize)):?>
+        <h2>RESULT</h2>
+        <hr>
         <h3><?= $superhero['alias']; ?></h3>
         <h4>A.K.A <?= $superhero['name']; ?></h4>
         <p><?= $superhero['biography']; ?></p>
